@@ -1,7 +1,7 @@
 {
-  "name": "radio-taxi",
+  "name": "radio-walkie-talkie",
   "version": "1.0.0",
-  "description": "Aplicación de radio para taxis en tiempo real",
+  "description": "Aplicación de comunicación en tiempo real para taxis",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
