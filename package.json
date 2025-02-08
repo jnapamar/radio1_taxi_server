@@ -1,13 +1,13 @@
 {
-  "name": "radio_taxi",
+  "name": "radio-taxi",
   "version": "1.0.0",
-  "description": "\"# radio1_taxi_server\"",
-  "main": "script.js",
+  "description": "Aplicación de radio para taxis en tiempo real",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
 }
