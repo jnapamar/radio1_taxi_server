@@ -1,32 +1,35 @@
 const express = require("express");
 const http = require("http");
-const socketIo = require("socket.io");
-const path = require("path");
+const { Server } = require("socket.io");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
+
 const server = http.createServer(app);
-const io = socketIo(server);
-
-const PORT = process.env.PORT || 3000;
-
-// Servir archivos estáticos
-app.use(express.static(path.join(__dirname, "public")));
-
-// Evento de conexión de clientes
-io.on("connection", (socket) => {
-  console.log("🚖 Conductor conectado:", socket.id);
-
-  socket.on("mensaje", (data) => {
-    console.log("📢 Mensaje recibido:", data);
-    io.emit("mensaje", data); // Reenvía el mensaje a todos
-  });
-
-  socket.on("disconnect", () => {
-    console.log("❌ Conductor desconectado:", socket.id);
-  });
+const io = new Server(server, {
+    cors: {
+        origin: "*", // Permite conexiones desde cualquier lugar
+    },
 });
 
-// Iniciar servidor
+io.on("connection", (socket) => {
+    console.log("Un conductor se conectó:", socket.id);
+
+    socket.on("mensaje", (data) => {
+        console.log("Mensaje recibido:", data);
+        io.emit("mensaje", data); // Enviar el mensaje a todos los conductores
+    });
+
+    socket.on("disconnect", () => {
+        console.log("Un conductor se desconectó:", socket.id);
+    });
+});
+
+const PORT = process.env.PORT || 3000;
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 server.listen(PORT, () => {
-  console.log(`📡 Servidor funcionando en http://localhost:${PORT}`);
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
